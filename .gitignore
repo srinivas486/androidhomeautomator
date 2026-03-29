@@ -1,0 +1,32 @@
+# Built application outputs
+*.apk
+*.aab
+*.ap_
+*.app
+
+# Build directories
+/build/
+/app/build/
+/out/
+
+# Gradle
+.gradle/
+/gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+local.properties
+
+# Keystore
+*.keystore
+*.jks
+
+# Credentials (Epic 2+)
+*.pem
+credentials.json
+secrets/
+
+# Misc
+*.log
+.DS_Store
