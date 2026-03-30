@@ -7,6 +7,20 @@
 
 ---
 
+## Implementation Status
+
+| Epic | Status | PR |
+|------|--------|-----|
+| Epic 1: Project Shell | ✅ Complete | PR #2 |
+| Epic 2: Dashboard + Settings | 🔄 In Progress | PR #3 |
+| Epic 3: Firewall Module | ⏳ Pending | - |
+| Epic 4: Tailscale Module | ⏳ Pending | - |
+| Epic 5: Camera Module | ⏳ Pending | - |
+| Epic 6: Network Dashboard | ⏳ Pending | - |
+| Epic 7: Plugin Slot + Polish | ⏳ Pending | - |
+
+---
+
 ## 1. Overview
 
 An Android app that serves as a unified dashboard for Vasu's home network and security infrastructure. The app connects to existing APIs (Sophos XG firewall, Tailscale VPN, cameras) rather than directly monitoring — making it more reliable and easier to maintain.
@@ -330,10 +344,18 @@ implementation(libs.kotlinx.coroutines)
 8. `.gitignore` before first `git add`
 
 ### Epic 2: Dashboard + Settings
-1. Dashboard home screen (tile grid)
-2. Bottom navigation
-3. Settings screen (credential inputs per module)
-4. Credential storage flow
+**Status:** ✅ Complete (PR #3)
+
+1. ✅ Dashboard home screen with tile grid
+2. ✅ Bottom navigation (Firewall, Tailscale, Cameras, Network)
+3. ✅ Settings screen with credential inputs per module
+   - Sophos Firewall: IP, Username, Password, Test Connection
+   - Tailscale: API Key, Test Connection
+   - Cameras: Add/Delete cameras (RTSP URLs)
+   - Network Dashboard: Refresh interval picker
+4. ✅ Credential test flow with temporary creds, success/error snackbars
+5. ✅ EncryptedSharedPreferences storage via CredentialsManager
+6. ✅ Pull-to-refresh on dashboard
 
 ### Epic 3: Firewall Module
 1. Sophos XG API client (Retrofit)

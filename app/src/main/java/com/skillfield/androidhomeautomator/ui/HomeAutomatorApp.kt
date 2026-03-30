@@ -3,8 +3,11 @@ package com.skillfield.androidhomeautomator.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -21,8 +24,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.skillfield.androidhomeautomator.DashboardScreen
 import com.skillfield.androidhomeautomator.ui.navigation.NavRoutes
+import com.skillfield.androidhomeautomator.ui.screens.dashboard.DashboardScreen
+import com.skillfield.androidhomeautomator.ui.screens.settings.SettingsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +39,21 @@ fun HomeAutomatorApp() {
         topBar = {
             TopAppBar(
                 title = { Text("Home Automator") },
-                colors = TopAppBarDefaults.topAppBarColors()
+                colors = TopAppBarDefaults.topAppBarColors(),
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(NavRoutes.Settings.route) {
+                                launchSingleTop = true
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings"
+                        )
+                    }
+                }
             )
         },
         bottomBar = {
@@ -69,7 +87,7 @@ fun HomeAutomatorApp() {
             composable(NavRoutes.Tailscale.route) { PlaceholderScreen("Tailscale") }
             composable(NavRoutes.Cameras.route) { PlaceholderScreen("Cameras") }
             composable(NavRoutes.Network.route) { PlaceholderScreen("Network") }
-            composable(NavRoutes.Settings.route) { PlaceholderScreen("Settings") }
+            composable(NavRoutes.Settings.route) { SettingsScreen() }
         }
     }
 }

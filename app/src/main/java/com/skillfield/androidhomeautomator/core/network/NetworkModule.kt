@@ -7,7 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Credentials
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -17,8 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    private const val SOPHOS_BASE_URL = "https:// sophos-xg.local:4444/" // Placeholder - will be configured in Epic 2
 
     @Provides
     @Singleton
@@ -38,29 +39,40 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .addInterceptor(authInterceptor)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
+    fun provideNetworkClientProvider(
         moshi: Moshi
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(SOPHOS_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
+    ): NetworkClientProvider {
+        return object : NetworkClientProvider {
+            override fun createRetrofit(
+                baseUrl: String,
+                credentialsManager: CredentialsManager
+            ): Retrofit {
+                val authInterceptor = Interceptor { chain ->
+                    val username = credentialsManager.getUsername()
+                    val password = credentialsManager.getPassword()
+                    if (username.isNotEmpty() && password.isNotEmpty()) {
+                        val credentials = Credentials.basic(username, password)
+                        val request = chain.request().newBuilder()
+                            .header("Authorization", credentials)
+                            .build()
+                        chain.proceed(request)
+                    } else {
+                        chain.proceed(chain.request())
+                    }
+                }
+
+                val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(authInterceptor)
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .build()
+
+                return Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .client(okHttpClient)
+                    .addConverterFactory(MoshiConverterFactory.create(moshi))
+                    .build()
+            }
+        }
     }
 }

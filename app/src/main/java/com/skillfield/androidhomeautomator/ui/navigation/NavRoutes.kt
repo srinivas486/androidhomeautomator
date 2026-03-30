@@ -59,8 +59,7 @@ sealed class NavRoutes(
             Firewall,
             Tailscale,
             Cameras,
-            Network,
-            Settings
+            Network
         )
     }
 }
