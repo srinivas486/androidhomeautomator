@@ -46,7 +46,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.9.22"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
 
     packaging {
@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.media3.ui)
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.security.crypto)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

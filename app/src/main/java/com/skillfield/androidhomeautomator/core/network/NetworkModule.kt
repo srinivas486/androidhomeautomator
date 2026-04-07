@@ -1,6 +1,7 @@
 package com.skillfield.androidhomeautomator.core.network
 
 import com.skillfield.androidhomeautomator.core.storage.CredentialsManager
+import com.skillfield.androidhomeautomator.data.network.NetworkClientProvider
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
