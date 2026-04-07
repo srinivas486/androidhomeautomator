@@ -23,6 +23,14 @@ class CredentialsManager @Inject constructor(
         private const val KEY_PASSWORD = "sophos_password"
         private const val KEY_SOPHOS_HOST = "sophos_host"
         private const val KEY_TAILSCALE_API_KEY = "tailscale_api_key"
+
+        /**
+         * Encodes username:password to Base64 for Basic Auth header.
+         */
+        fun encodeCredentials(username: String, password: String): String {
+            val credentials = "$username:$password"
+            return Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
+        }
     }
 
     private val masterKey: MasterKey by lazy {
@@ -81,15 +89,5 @@ class CredentialsManager @Inject constructor(
 
     fun clearAll() {
         encryptedPrefs.edit().clear().apply()
-    }
-
-    companion object {
-        /**
-         * Encodes username:password to Base64 for Basic Auth header.
-         */
-        fun encodeCredentials(username: String, password: String): String {
-            val credentials = "$username:$password"
-            return Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-        }
     }
 }

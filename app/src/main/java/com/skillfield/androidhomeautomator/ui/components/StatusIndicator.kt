@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.skillfield.androidhomeautomator.data.model.Status
 import com.skillfield.androidhomeautomator.ui.theme.Error
 import com.skillfield.androidhomeautomator.ui.theme.Primary
 import com.skillfield.androidhomeautomator.ui.theme.Secondary
@@ -19,7 +20,7 @@ import com.skillfield.androidhomeautomator.ui.theme.Secondary
  */
 @Composable
 fun StatusIndicator(
-    status: Status,
+    status: com.skillfield.androidhomeautomator.data.model.Status,
     modifier: Modifier = Modifier,
     size: Dp = 12.dp
 ) {
@@ -27,7 +28,9 @@ fun StatusIndicator(
         Status.ONLINE -> Primary
         Status.WARNING -> Secondary
         Status.OFFLINE -> Error
-        Status.UNKNOWN -> Color.Gray
+        Status.ERROR -> Error
+        Status.NOT_CONFIGURED -> Color.Gray
+        Status.LOADING -> Color.Gray
     }
 
     Box(
@@ -38,9 +41,4 @@ fun StatusIndicator(
     )
 }
 
-enum class Status {
-    ONLINE,
-    WARNING,
-    OFFLINE,
-    UNKNOWN
-}
+

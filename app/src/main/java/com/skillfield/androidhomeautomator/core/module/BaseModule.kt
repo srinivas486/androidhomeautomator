@@ -37,7 +37,6 @@ abstract class BaseModule : HomeModule {
         }
     }
 
-    @Composable
     override fun getDashboardTile(): @Composable () -> Unit = {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -56,7 +55,6 @@ abstract class BaseModule : HomeModule {
         }
     }
 
-    @Composable
     override fun getDetailScreen(): @Composable () -> Unit = {
         Box(
             modifier = Modifier.fillMaxSize(),
